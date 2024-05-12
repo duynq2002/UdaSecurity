@@ -1,0 +1,15 @@
+# Created at 2024-05-05T10:10:49.668
+Corrupted STDOUT by directly writing to native stream in forked JVM 1. Stream 'Error occurred during initialization of boot layer'.
+
+# Created at 2024-05-05T10:10:49.670
+Corrupted STDOUT by directly writing to native stream in forked JVM 1. Stream 'java.lang.module.FindException: Error reading module:'.
+
+# Created at 2024-05-05T10:10:49.672
+Corrupted STDOUT by directly writing to native stream in forked JVM 1. Stream 'D:\Course\Udacity\Java\UdaSecurity-master\catpoint-parent\security-services\target\classes'.
+
+# Created at 2024-05-05T10:10:49.672
+Corrupted STDOUT by directly writing to native stream in forked JVM 1. Stream 'Caused by: java.lang.module.InvalidModuleDescriptorException:'.
+
+# Created at 2024-05-05T10:10:49.674
+Corrupted STDOUT by directly writing to native stream in forked JVM 1. Stream 'Package com.udacity.catpoint not found in module'.
+
