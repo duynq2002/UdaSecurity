@@ -31,7 +31,6 @@ public class SecurityServiceTest
     public Sensor sensor;
     public String random = UUID.randomUUID().toString();
 
-    @Mock
     public SecurityService securityService;
 
     @Mock
@@ -40,7 +39,6 @@ public class SecurityServiceTest
     @Mock
     public ImageServices imageServices;
 
-    @Mock
     public StatusListener statusListener;
 
     public Sensor getNewSensor() {
@@ -77,9 +75,9 @@ public class SecurityServiceTest
     public void armedAlarmAndActivatedSensor_AlarmStatusToPending(ArmingStatus armingStatus)
     {
         /* alarm is armed */
-        when(securityService.getArmingStatus()).thenReturn(armingStatus);
+        when(securityRepository.getArmingStatus()).thenReturn(armingStatus);
         /* activate a sensor */
-        when(securityService.getAlarmStatus()).thenReturn(AlarmStatus.NO_ALARM);
+        when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.NO_ALARM);
         securityService.changeSensorActivationStatus(sensor, true);
         /* the system must be pushed into pending alarm status. */
         verify(securityRepository, times(1)).setAlarmStatus(AlarmStatus.PENDING_ALARM);
@@ -99,9 +97,9 @@ public class SecurityServiceTest
         /* get particular sensor in the set */
         sensor = allSensors.iterator().next();
         /* alarm is armed */
-        when(securityService.getArmingStatus()).thenReturn(armingStatus);
+        when(securityRepository.getArmingStatus()).thenReturn(armingStatus);
         /* system in pending alarm */
-        when(securityService.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
+        when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
         /* activate a sensor */
         securityService.changeSensorActivationStatus(sensor, true);
         /* the system must be pushed into PENDING ALARM status. */
@@ -120,7 +118,7 @@ public class SecurityServiceTest
         sensor.setActive(true);
 
         /* system in pending alarm */
-        when(securityService.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
+        when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
 
         securityService.changeSensorActivationStatus(sensor, false);
         /* the system must be pushed into NO ALARM status. */
@@ -166,9 +164,9 @@ public class SecurityServiceTest
         sensor.setActive(true);
 
         /* system in PENDING state */
-        when(securityService.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
+        when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
         /* alarm is armed because the system is in PENDING state */
-        when(securityService.getArmingStatus()).thenReturn(armingStatus);
+        when(securityRepository.getArmingStatus()).thenReturn(armingStatus);
 
         securityService.changeSensorActivationStatus(sensor, true);
         /* the alarm status must be changed to ALARM */
@@ -197,7 +195,7 @@ public class SecurityServiceTest
     {
         BufferedImage image = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
         /* system is armed-home */
-        when(securityService.getArmingStatus()).thenReturn(ArmingStatus.ARMED_HOME);
+        when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_HOME);
         /* detected cat image */
         when(imageServices.imageContainsCat(any(), anyFloat())).thenReturn(true);
         securityService.processImage(image);
@@ -249,7 +247,7 @@ public class SecurityServiceTest
         /* get set of sensors */
         when(securityRepository.getSensors()).thenReturn(allSensors);
         /* arm the system */
-        securityRepository.setArmingStatus(armingStatus);
+        securityService.setArmingStatus(armingStatus);
         /* check if all the sensor are inactive */
         securityService.getSensors().forEach(sensor -> Assertions.assertFalse(sensor.getActive()));
     }
@@ -270,7 +268,7 @@ public class SecurityServiceTest
     {
         BufferedImage image = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
         /* first disarmed the system */
-        when(securityService.getArmingStatus()).thenReturn(armingStatus);
+        when(securityRepository.getArmingStatus()).thenReturn(armingStatus);
         /* detected cat image */
         when(imageServices.imageContainsCat(any(), anyFloat())).thenReturn(true);
         securityService.processImage(image);
